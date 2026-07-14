@@ -1,3 +1,5 @@
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../firebase";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -94,7 +96,7 @@ export default function LoginPage({ role }: { role: Role }) {
   const RoleIcon = cfg.icon;
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const { toast } = useToast();
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -110,12 +112,41 @@ export default function LoginPage({ role }: { role: Role }) {
       await login({ ...values, role, remember });
       toast({ title: 'Welcome back!', description: `Signed in as ${r.title}`, variant: 'success' });
       navigate(r.dashboardPath);
-    } catch (err) {
+    } catch (err: unknown) {
       toast({ title: 'Sign in failed', description: (err as Error).message, variant: 'error' });
     } finally {
       setLoading(false);
     }
   };
+  const handleGoogleLogin = async () => {
+  setLoading(true);
+
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    await googleLogin(result.user);
+
+    toast({
+      title: "Welcome!",
+      description: `Signed in as ${result.user.displayName}`,
+      variant: "success",
+    });
+
+    navigate(r.dashboardPath);
+
+  } catch (err) {
+    console.error(err);
+
+    toast({
+      title: "Google Sign-in Failed",
+      description: "Please try again.",
+      variant: "error",
+    });
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   const floatingCards = {
     member:  [
@@ -310,16 +341,14 @@ export default function LoginPage({ role }: { role: Role }) {
 
               {/* Google button — UI only, MERN-ready */}
               <button
-                type="button"
-                disabled
-                title="Backend integration required"
-                className="flex w-full cursor-not-allowed items-center justify-center gap-3 rounded-xl border border-border-soft bg-white px-5 py-3 text-sm font-semibold text-ink-soft opacity-60 shadow-soft transition-all hover:border-navy/20 hover:opacity-70 hover:shadow-card"
-              >
+  type="button"
+  onClick={handleGoogleLogin}
+  disabled={loading}
+  className="flex w-full items-center justify-center gap-3 rounded-xl border border-border-soft bg-white px-5 py-3 text-sm font-semibold text-ink shadow-soft transition-all hover:border-navy hover:bg-gray-50 hover:shadow-card cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+>
                 <GoogleIcon />
-                Continue with Google
-                <span className="ml-auto rounded-md bg-beige px-1.5 py-0.5 text-[0.65rem] font-medium text-ink-soft/70">
-                  Soon
-                </span>
+                {loading ? "Signing in..." : "Continue with Google"}
+                
               </button>
             </form>
           </motion.div>

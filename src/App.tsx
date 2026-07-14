@@ -13,9 +13,13 @@ import SignupPage from './pages/auth/SignupPage';
 
 // Dashboards
 import Dashboard from './pages/dashboard/Dashboard';
-import { MemberDashboard, LeadDashboard, FacultyDashboard } from './pages/dashboard/Dashboard';
+import {
+  MemberDashboard,
+  LeadDashboard,
+  FacultyDashboard,
+} from './pages/dashboard/Dashboard';
 
-// Shared app pages
+// Shared Pages
 import EventsPage from './pages/dashboard/EventsPage';
 import ProjectsPage from './pages/dashboard/ProjectsPage';
 import BlogsPage from './pages/dashboard/BlogsPage';
@@ -25,57 +29,201 @@ import AnnouncementsPage from './pages/dashboard/AnnouncementsPage';
 import ProfilePage from './pages/dashboard/ProfilePage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 
+// Planner
+import CampusPlanner from './pages/planner/CampusPlanner';
+
+// Polls
+import PollsPage from './pages/polls/PollsPage';
+
 export default function App() {
   return (
     <AuthProvider>
       <ToastProvider>
         <BrowserRouter>
+
           <Routes>
-            {/* ── Public ───────────────────────────────── */}
+
+            {/* Public */}
             <Route path="/" element={<Landing />} />
-            <Route path="/login/member"  element={<LoginPage role="member"  />} />
-            <Route path="/login/lead"    element={<LoginPage role="lead"    />} />
-            <Route path="/login/faculty" element={<LoginPage role="faculty" />} />
-            <Route path="/signup/:role"  element={<SignupWrapper />} />
 
-            {/* ── Legacy role redirect helpers ─────────── */}
-            <Route path="/member/dashboard"  element={<ProtectedRoute><Navigate to="/app/member"  replace /></ProtectedRoute>} />
-            <Route path="/lead/dashboard"    element={<ProtectedRoute><Navigate to="/app/lead"    replace /></ProtectedRoute>} />
-            <Route path="/faculty/dashboard" element={<ProtectedRoute><Navigate to="/app/faculty" replace /></ProtectedRoute>} />
+            <Route
+              path="/login/member"
+              element={<LoginPage role="member" />}
+            />
 
-            {/* ── Protected App shell ───────────────────── */}
-            <Route path="/app" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-              {/* Default → role-aware redirect */}
+            <Route
+              path="/login/lead"
+              element={<LoginPage role="lead" />}
+            />
+
+            <Route
+              path="/login/faculty"
+              element={<LoginPage role="faculty" />}
+            />
+
+            <Route
+              path="/signup/:role"
+              element={<SignupWrapper />}
+            />
+
+            {/* Legacy Redirects */}
+
+            <Route
+              path="/member/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Navigate to="/app/member" replace />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/lead/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Navigate to="/app/lead" replace />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/faculty/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Navigate to="/app/faculty" replace />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Protected App */}
+
+            <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+
               <Route index element={<Dashboard />} />
-              <Route path="dashboard" element={<Dashboard />} />
 
-              {/* Role-specific dashboards */}
-              <Route path="member"  element={<MemberDashboard  />} />
-              <Route path="lead"    element={<LeadDashboard    />} />
-              <Route path="faculty" element={<FacultyDashboard />} />
+              <Route
+                path="dashboard"
+                element={<Dashboard />}
+              />
 
-              {/* Shared pages */}
-              <Route path="events"        element={<EventsPage       />} />
-              <Route path="projects"      element={<ProjectsPage     />} />
-              <Route path="blogs"         element={<BlogsPage        />} />
-              <Route path="gallery"       element={<GalleryPage      />} />
-              <Route path="leaderboard"   element={<LeaderboardPage  />} />
-              <Route path="announcements" element={<AnnouncementsPage/>} />
-              <Route path="profile"       element={<ProfilePage      />} />
-              <Route path="settings"      element={<SettingsPage     />} />
+              {/* Dashboards */}
 
-              {/* Faculty-only stubs (same shell, placeholder content) */}
-              <Route path="approvals"  element={<AnnouncementsPage />} />
-              <Route path="analytics"  element={<AnnouncementsPage />} />
-              <Route path="reports"    element={<AnnouncementsPage />} />
-              <Route path="clubs"      element={<AnnouncementsPage />} />
-              <Route path="members"    element={<AnnouncementsPage />} />
+              <Route
+                path="member"
+                element={<MemberDashboard />}
+              />
+
+              <Route
+                path="lead"
+                element={<LeadDashboard />}
+              />
+
+              <Route
+                path="faculty"
+                element={<FacultyDashboard />}
+              />
+
+              {/* Shared Pages */}
+
+              <Route
+                path="events"
+                element={<EventsPage />}
+              />
+
+              <Route
+                path="planner"
+                element={<CampusPlanner />}
+              />
+
+              {/* NEW POLLS PAGE */}
+
+              <Route
+                path="polls"
+                element={<PollsPage />}
+              />
+
+              <Route
+                path="projects"
+                element={<ProjectsPage />}
+              />
+
+              <Route
+                path="blogs"
+                element={<BlogsPage />}
+              />
+
+              <Route
+                path="gallery"
+                element={<GalleryPage />}
+              />
+
+              <Route
+                path="leaderboard"
+                element={<LeaderboardPage />}
+              />
+
+              <Route
+                path="announcements"
+                element={<AnnouncementsPage />}
+              />
+
+              <Route
+                path="profile"
+                element={<ProfilePage />}
+              />
+
+              <Route
+                path="settings"
+                element={<SettingsPage />}
+              />
+
+              {/* Faculty */}
+
+              <Route
+                path="approvals"
+                element={<AnnouncementsPage />}
+              />
+
+              <Route
+                path="analytics"
+                element={<AnnouncementsPage />}
+              />
+
+              <Route
+                path="reports"
+                element={<AnnouncementsPage />}
+              />
+
+              <Route
+                path="clubs"
+                element={<AnnouncementsPage />}
+              />
+
+              <Route
+                path="members"
+                element={<AnnouncementsPage />}
+              />
+
             </Route>
 
-            {/* ── Catch-all ─────────────────────────────── */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Catch All */}
+
+            <Route
+              path="*"
+              element={<Navigate to="/" replace />}
+            />
+
           </Routes>
+
           <ToastViewport />
+
         </BrowserRouter>
       </ToastProvider>
     </AuthProvider>
@@ -84,6 +232,12 @@ export default function App() {
 
 function SignupWrapper() {
   const { role } = useParams<{ role: string }>();
-  const validRole = (['member', 'lead', 'faculty'].includes(role ?? '') ? role : 'member') as Role;
+
+  const validRole = (
+    ['member', 'lead', 'faculty'].includes(role ?? '')
+      ? role
+      : 'member'
+  ) as Role;
+
   return <SignupPage role={validRole} />;
 }

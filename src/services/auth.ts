@@ -13,6 +13,22 @@ const roleUserMap = {
 };
 
 export const authService = {
+  async googleLogin(firebaseUser: any): Promise<AuthSession> {
+  const user: User = {
+    ...roleUserMap.member,
+    id: firebaseUser.uid,
+    name: firebaseUser.displayName || "Google User",
+    email: firebaseUser.email || "",
+    role: "member",
+  };
+
+  const token = await firebaseUser.getIdToken();
+
+  return {
+    token,
+    user,
+  };
+},
   async login(payload: LoginPayload): Promise<AuthSession> {
     await sleep(1100);
     try { await api.post('/auth/login', payload); } catch { /* no backend */ }
