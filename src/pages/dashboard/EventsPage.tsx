@@ -153,9 +153,17 @@ export default function EventsPage() {
                       className="mt-4 w-full"
                       size="sm"
                       disabled={isRegistered && !isLive && !isCompleted}
-                      onClick={() => !isCompleted && setSelectedEvent(e)}
+                      onClick={() => setSelectedEvent(e)}
                     >
-                      {isCompleted ? 'View recap' : isLive ? 'Join now' : isRegistered ? '✓ Registered' : 'Register'}
+                     {
+  isCompleted
+    ? 'View Recap'
+    : isLive
+    ? 'Join Now'
+    : isRegistered
+    ? '✓ Registered'
+    : 'Register'
+}
                     </Button>
                   );
                 })()}
