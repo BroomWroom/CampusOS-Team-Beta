@@ -168,15 +168,15 @@ export default function LoginPage({ role }: { role: Role }) {
   const floatingCards = {
     member:  [
       { label: 'Hackathon Kickoff',    icon: CalendarDays, delay: 0.6, x: '8%',  y: '22%' },
-      { label: 'Top Contributor',      icon: Trophy,       delay: 0.7, x: '12%', y: '62%' },
+      
     ],
     lead:    [
       { label: '24 Team Members',      icon: Users,        delay: 0.6, x: '8%',  y: '22%' },
-      { label: '3 Pending Approvals',  icon: Check,        delay: 0.7, x: '12%', y: '62%' },
+
     ],
     faculty: [
       { label: '12 Active Clubs',      icon: BarChart3,    delay: 0.6, x: '8%',  y: '22%' },
-      { label: '7 Pending Reviews',    icon: ShieldCheck,  delay: 0.7, x: '12%', y: '62%' },
+      
     ],
   };
 

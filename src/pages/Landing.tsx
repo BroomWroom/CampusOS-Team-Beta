@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowRight, Sparkles, ShieldCheck, Crown, Users,
-  Check, CalendarDays, FolderKanban, Trophy,
+   CalendarDays, FolderKanban, Trophy,
 } from 'lucide-react';
 import { ROLES, APP_NAME, APP_TAGLINE, APP_DESCRIPTION, LANDING_STATS } from '../utils/constants';
 import type { Role } from '../types';
@@ -29,6 +29,34 @@ const features = [
     icon: Trophy,
     title: 'Recognition & Leaderboards',
     desc: 'Reward contribution with badges, certificates, and real-time leaderboards that motivate every member.',
+  },
+];
+const galleryImages = [
+  
+  {
+    
+    title: "Hackathon 2026",
+    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952",
+  },
+  {
+    title: "AI Workshop",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+  },
+  {
+    title: "Robotics Expo",
+    image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780",
+  },
+  {
+    title: "Cultural Fest",
+    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
+  },
+  {
+    title: "Sports Meet",
+    image: "https://images.unsplash.com/photo-1517649763962-0c623066013b",
+  },
+  {
+    title: "Award Ceremony",
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865",
   },
 ];
 
@@ -96,11 +124,11 @@ export default function Landing() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.16, type: 'spring', stiffness: 180, damping: 22 }}
           className="mx-auto mt-6 max-w-4xl text-balance text-5xl font-bold leading-[1.06] tracking-tight text-ink sm:text-7xl"
-        >
-          Run your club like a
-          <span className="block bg-gradient-to-r from-navy via-navy-400 to-[#8a6d3b] bg-clip-text text-transparent">
-            premium product team.
-          </span>
+        >One Platform.
+<span className="block bg-gradient-to-r from-navy via-navy-400 to-[#8a6d3b] bg-clip-text text-transparent">
+Every Club.
+Every Achievement.
+</span>
         </motion.h1>
 
         <motion.p
@@ -239,35 +267,120 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto max-w-7xl px-6 py-16">
-        <FadeUpItem>
-          <div className="relative overflow-hidden rounded-3xl bg-navy p-10 text-center text-white shadow-lift sm:p-16">
-            <div className="absolute inset-0 bg-navy-radial opacity-60" />
-            <div className="relative">
-              <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-                Ready to upgrade your campus?
-              </h2>
-              <p className="mx-auto mt-3 max-w-lg text-white/70">
-                Join clubs already running on {APP_NAME}. Get started in under a minute.
-              </p>
-              <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-                <Link
-                  to="/login/member"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-navy shadow-soft transition-all hover:shadow-lift"
-                >
-                  Get started <ArrowRight className="h-4 w-4" />
-                </Link>
-                {['No credit card', 'Free for students', 'Setup in minutes'].map((t) => (
-                  <span key={t} className="inline-flex items-center gap-1.5 text-sm text-white/70">
-                    <Check className="h-4 w-4 text-success" /> {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </FadeUpItem>
-      </section>
+      
+      {/* ── Campus Moments ───────────────────────────────────── */}
+<section className="relative z-10 overflow-hidden bg-cream py-24">
+
+  <div className="mx-auto mb-14 max-w-3xl text-center">
+
+    <span className="inline-flex items-center rounded-full border border-border-soft bg-white px-4 py-1 text-xs font-semibold text-navy shadow-soft">
+      📸 LIVE CAMPUS GALLERY
+    </span>
+
+    <h2 className="mt-5 text-5xl font-bold tracking-tight text-ink">
+     Campus Moments ✨
+    </h2>
+
+    <p className="mx-auto mt-5 max-w-2xl text-lg text-ink-soft">
+      Experience the vibrant life of CampusOS through hackathons,
+      AI workshops, cultural festivals, club activities,
+      competitions and student achievements.
+    </p>
+
+  </div>
+
+  
+<div className="relative mt-16">
+
+  {/* Left Fade */}
+  <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-28 bg-gradient-to-r from-cream to-transparent" />
+
+  {/* Right Fade */}
+  <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-28 bg-gradient-to-l from-cream to-transparent" />
+  </div> 
+
+  {/* First Row */}
+  <motion.div
+    animate={{ x: ["0%", "-50%"] }}
+    transition={{
+      repeat: Infinity,
+      ease: "linear",
+      duration: 55,
+    }}
+    className="flex gap-8"
+  >
+    {[...galleryImages, ...galleryImages].map((item, index) => (
+
+<div
+key={index}
+className="
+group
+relative
+h-80
+w-[460px]
+shrink-0
+overflow-hidden
+rounded-[32px]
+shadow-xl
+transition-all
+duration-500
+hover:-translate-y-2
+hover:shadow-2xl
+"
+>
+
+<img
+src={item.image}
+alt={item.title}
+className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+/>
+
+<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100">
+
+<div className="absolute bottom-6 left-6">
+
+<h3 className="text-3xl font-bold text-white drop-shadow-lg">
+
+{item.title}
+
+</h3>
+
+<p className="mt-1 text-base text-white/90">
+Experience • Innovation • Collaboration
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+))}
+
+  </motion.div>
+  
+</section>
+<div className="mt-16 text-center">
+
+<p className="text-lg text-ink-soft">
+
+Every event begins with an idea.
+Every achievement begins with participation.
+
+</p>
+
+<Link
+to="/login/member"
+className="mt-8 inline-flex items-center gap-2 rounded-xl bg-navy px-7 py-4 text-white shadow-soft transition hover:bg-navy-600"
+>
+
+Start Your Journey
+
+<ArrowRight className="h-4 w-4"/>
+
+</Link>
+
+</div>
 
       {/* ── Footer ───────────────────────────────────────────── */}
       <footer className="relative z-10 border-t border-border-soft bg-white/40 backdrop-blur-sm">
