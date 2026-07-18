@@ -63,9 +63,9 @@ export default function App() {
               <Route path="dashboard" element={<Dashboard />} />
 
               {/* Role-specific dashboards */}
-              <Route path="member"  element={<MemberDashboard  />} />
-              <Route path="lead"    element={<LeadDashboard    />} />
-              <Route path="faculty" element={<FacultyDashboard />} />
+              <Route path="member"  element={<ProtectedRoute allowedRoles={['member', 'lead', 'faculty']}><MemberDashboard /></ProtectedRoute>} />
+              <Route path="lead"    element={<ProtectedRoute allowedRoles={['lead']}><LeadDashboard /></ProtectedRoute>} />
+              <Route path="faculty" element={<ProtectedRoute allowedRoles={['faculty']}><FacultyDashboard /></ProtectedRoute>} />
 
               {/* Shared pages */}
               <Route path="events"        element={<EventsPage       />} />
@@ -82,11 +82,11 @@ export default function App() {
               <Route path="polls"         element={<PollsPage        />} />
 
               {/* Faculty-only routes */}
-              <Route path="approvals"  element={<ApprovalsPage />} />
-              <Route path="analytics"  element={<AnalyticsPage />} />
-              <Route path="reports"    element={<ReportsPage />} />
-              <Route path="clubs"      element={<ClubsPage />} />
-              <Route path="members"    element={<MembersPage />} />
+              <Route path="approvals"  element={<ProtectedRoute allowedRoles={['faculty']}><ApprovalsPage /></ProtectedRoute>} />
+              <Route path="analytics"  element={<ProtectedRoute allowedRoles={['faculty']}><AnalyticsPage /></ProtectedRoute>} />
+              <Route path="reports"    element={<ProtectedRoute allowedRoles={['faculty']}><ReportsPage /></ProtectedRoute>} />
+              <Route path="clubs"      element={<ProtectedRoute allowedRoles={['faculty']}><ClubsPage /></ProtectedRoute>} />
+              <Route path="members"    element={<ProtectedRoute allowedRoles={['lead', 'faculty']}><MembersPage /></ProtectedRoute>} />
             </Route>
 
             {/* ── Catch-all ─────────────────────────────── */}
