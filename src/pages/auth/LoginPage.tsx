@@ -158,20 +158,19 @@ export default function LoginPage({ role }: { role: Role }) {
     }
   };
 
-  const floatingCards: Record<
-  Role,
-  {
-    label: string;
-    icon: typeof CalendarDays;
-    delay: number;
-    x: string;
-    y: string;
-  }[]
-> = {
-  member: [],
-  lead: [],
-  faculty: [],
-};
+  const floatingCards = {
+    member:  [
+     
+      
+    ],
+    lead:    [
+      
+    ],
+    faculty: [
+      { label: '12 Active Clubs',      icon: BarChart3,    delay: 0.6, x: '8%',  y: '22%' },
+      
+    ],
+  };
 
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-2">
