@@ -5,6 +5,7 @@ import type { PlannerEvent } from "../../types/planner";
 import { Modal } from "../ui/Modal";
 import { Button } from "../ui/Button";
 import api from "../../services/api";
+import { eventsService } from "../../services/eventsService";
 
 interface Props {
   open: boolean;
@@ -59,7 +60,27 @@ export default function CreateEventModal({
   };
 
   const handleCreate = async () => {
+    
     const canCreate = user?.role === "lead" || user?.role === "faculty";
+    if (description.length < 10) {
+      toast({
+        title: "Validation Error",
+        description: "Description must be at least 10 characters long.",
+        variant: "warning",
+      });
+      return;
+    }
+
+    const dateValue = new Date(`${startDate}T${startTime}:00`);
+
+    if (dateValue <= new Date()) {
+      toast({
+        title: "Invalid Date",
+        description: "Please select a future date and time.",
+        variant: "warning",
+      });
+      return;
+    }
 
     if (!canCreate) {
       toast({
@@ -67,6 +88,7 @@ export default function CreateEventModal({
         description: "Only Admins or Club Leads can create events.",
         variant: "warning",
       });
+      console.log("Access check failed");
       return;
     }
     if (
@@ -81,26 +103,26 @@ export default function CreateEventModal({
         description: "Please fill all required fields.",
         variant: "warning",
       });
+      console.log("Validation check failed: Missing fields");
       return;
     }
+    console.log("Validation passed, attempting API call...");
 
     const finalEndDate = endDate || startDate;
     const finalEndTime = endTime || startTime;
 
     const payload = {
-      title,
-      description,
-      date: startDate,
-      time: startTime,
-      venue,
-      organizer,
-      registrationDeadline: registrationDeadline || undefined,
-      maxParticipants: maxParticipants ? Number(maxParticipants) : undefined,
-      poster: poster || undefined,
-    };
+    title,
+    description,
+    date: new Date(`${startDate}T${startTime}:00`).toISOString(), // Combine date and time
+    location: venue, // Map venue to location
+    category: category.toLowerCase() as any, // Match enum: workshop, meeting, etc.
+    capacity: maxParticipants ? Number(maxParticipants) : undefined,
+    posterUrl: poster || undefined, // Map poster to posterUrl
+  };
 
     try {
-      await api.post('/events', payload);
+      await eventsService.createEvent(payload);
 
       const event: PlannerEvent = {
         id: Date.now().toString(),
@@ -117,15 +139,14 @@ export default function CreateEventModal({
 
       onCreate(event);
 
+      toast({ title: "Success", description: "Event created!", variant: "success" });
+      onCreate(event);
+      onClose();
+    } catch ( err: any) {
+      console.error("API Error:", err);
       toast({
-        title: "Event Created",
-        description: `${title} has been added successfully.`,
-        variant: "success",
-      });
-    } catch {
-      toast({
-        title: "Event Saved Locally",
-        description: "The event was queued locally because the backend was unavailable.",
+        title: "Error",
+        description: err.message || "Failed to create event",
         variant: "warning",
       });
     }
@@ -303,7 +324,7 @@ export default function CreateEventModal({
           >
             Cancel
           </Button>
-          <Button onClick={handleCreate} leftIcon="Check">
+          <Button type="button" onClick={handleCreate} leftIcon="Check">
             Create Event
           </Button>
         </div>
